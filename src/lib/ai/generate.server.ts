@@ -51,7 +51,7 @@ function friendlyError(error: unknown): { status: number; message: string } {
 }
 
 export async function handleGenerate(request: Request): Promise<Response> {
-  const apiKey = process.env.LOVABLE_API_KEY;
+  const apiKey = process.env['LOVABLE_API_KEY'];
   if (!apiKey) return json(500, "The AI service isn’t configured.");
 
   let input: z.infer<typeof InputSchema>;
@@ -92,11 +92,11 @@ export async function handleGenerate(request: Request): Promise<Response> {
   const buffered: GenerateEvent[] = [];
 
   const toEvent = (part: { type: string; [k: string]: unknown }): GenerateEvent | null => {
-    if (part.type === "text-delta") return { type: "text", text: String(part.text ?? "") };
-    if (part.type === "error") return { type: "error", ...friendlyError(part.error) };
+    if (part.type === "text-delta") return { type: "text", text: String(part['text'] ?? "") };
+    if (part.type === "error") return { type: "error", ...friendlyError(part['error']) };
     if (part.type === "finish") {
-      const reason = String(part.finishReason ?? "stop");
-      const raw = String(part.rawFinishReason ?? "");
+      const reason = String(part['finishReason'] ?? "stop");
+      const raw = String(part['rawFinishReason'] ?? "");
       if (reason === "content-filter" || raw === "refusal")
         return { type: "error", status: 200, message: "The AI declined to write this. Try a different template or details." };
       return { type: "done", finishReason: reason };

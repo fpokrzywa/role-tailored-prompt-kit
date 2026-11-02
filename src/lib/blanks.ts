@@ -57,7 +57,7 @@ export function parseBlanks(body: string): Blank[] {
   const seen = new Set<string>();
   const blanks: Blank[] = [];
   for (const match of body.matchAll(BRACKET_RE)) {
-    const label = match[1].trim();
+    const label = (match[1] ?? "").trim();
     if (seen.has(label)) continue;
     seen.add(label);
     blanks.push({ label, kind: blankKind(label) });
@@ -73,7 +73,7 @@ export function fillTemplate(body: string, values: Record<string, string>): stri
   });
 }
 
-export type PromptSegment = { type: "text"; text: string } | { type: "blank"; label: string; value?: string };
+export type PromptSegment = { type: "text"; text: string } | { type: "blank"; label: string; value?: string | undefined };
 
 /** Split a template into text and blank segments for highlighted previews. */
 export function segmentTemplate(body: string, values: Record<string, string>): PromptSegment[] {
@@ -82,7 +82,7 @@ export function segmentTemplate(body: string, values: Record<string, string>): P
   for (const match of body.matchAll(BRACKET_RE)) {
     const idx = match.index ?? 0;
     if (idx > last) out.push({ type: "text", text: body.slice(last, idx) });
-    const label = match[1].trim();
+    const label = (match[1] ?? "").trim();
     const value = values[label]?.trim();
     out.push({ type: "blank", label, value: value || undefined });
     last = idx + match[0].length;

@@ -5,7 +5,7 @@ type Event =
 
 /** Streams the AI result from /api/generate, calling onText with each new chunk. */
 export async function streamGenerate(
-  body: { prompt: string; industryName?: string; industryContext?: string },
+  body: { prompt: string; industryName?: string | undefined; industryContext?: string | undefined },
   onText: (chunk: string) => void,
   signal: AbortSignal,
 ): Promise<{ error?: string | undefined }> {

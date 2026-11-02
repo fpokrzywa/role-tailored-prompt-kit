@@ -8,7 +8,7 @@ export type ResultStatus = "idle" | "streaming" | "done" | "stopped" | "error";
 interface Props {
   status: ResultStatus;
   text: string;
-  error?: string;
+  error?: string | undefined;
   onStop: () => void;
   onRegenerate: () => void;
 }

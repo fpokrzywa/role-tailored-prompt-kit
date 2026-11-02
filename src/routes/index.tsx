@@ -57,7 +57,7 @@ function Index() {
 
   const industry = INDUSTRIES.find((i) => i.id === industryId);
   const categoryTemplates = templatesFor(category);
-  const template = TEMPLATES.find((t) => t.id === templateId) ?? categoryTemplates[0];
+  const template = TEMPLATES.find((t) => t.id === templateId) ?? categoryTemplates[0] ?? TEMPLATES[0];
   const blanks = useMemo(() => parseBlanks(template.body), [template.body]);
   const segments = segmentTemplate(template.body, values);
   const missing = missingBlanks(template.body, values);

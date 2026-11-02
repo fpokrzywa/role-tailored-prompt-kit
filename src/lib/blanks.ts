@@ -9,6 +9,7 @@ export type BlankKind =
   | "project"
   | "product"
   | "title"
+  | "jobTitle"
   | "years"
   | "wordCount"
   | "wordLimit"
@@ -32,7 +33,8 @@ export function blankKind(label: string): BlankKind {
   if (l === "x") return "years";
   if (l.includes("word count")) return "wordCount";
   if (l.includes("word limit")) return "wordLimit";
-  if (l.includes("timeframe")) return "timeframe";
+  if (l.includes("timeframe") || l.includes("timeline")) return "timeframe";
+  if (l.includes("job")) return "jobTitle";
   if (l.includes("meeting/call")) return "meetingType";
   if (l.includes("action") || l.includes("goal")) return "goal";
   if (l.includes("date") || l.includes("deadline")) return "date";

@@ -44,9 +44,9 @@ function StepLabel({ n, children }: { n: string; children: React.ReactNode }) {
 }
 
 function Index() {
-  const [industryId, setIndustryId] = useState(INDUSTRIES[0].id);
+  const [industryId, setIndustryId] = useState(INDUSTRIES[0]!.id);
   const [category, setCategory] = useState<CategoryId>("blog");
-  const [templateId, setTemplateId] = useState(templatesFor("blog")[0].id);
+  const [templateId, setTemplateId] = useState(templatesFor("blog")[0]!.id);
   const [values, setValues] = useState<Record<string, string>>({});
 
   const [status, setStatus] = useState<ResultStatus>("idle");
@@ -57,7 +57,7 @@ function Index() {
 
   const industry = INDUSTRIES.find((i) => i.id === industryId);
   const categoryTemplates = templatesFor(category);
-  const template = TEMPLATES.find((t) => t.id === templateId) ?? categoryTemplates[0] ?? TEMPLATES[0];
+  const template = TEMPLATES.find((t) => t.id === templateId) ?? categoryTemplates[0] ?? TEMPLATES[0]!;
   const blanks = useMemo(() => parseBlanks(template.body), [template.body]);
   const segments = segmentTemplate(template.body, values);
   const missing = missingBlanks(template.body, values);
@@ -67,7 +67,7 @@ function Index() {
 
   const chooseCategory = (id: CategoryId) => {
     setCategory(id);
-    setTemplateId(templatesFor(id)[0].id);
+    setTemplateId(templatesFor(id)[0]?.id ?? templateId);
   };
 
   const setValue = (label: string, v: string) => setValues((prev) => ({ ...prev, [label]: v }));

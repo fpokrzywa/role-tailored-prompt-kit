@@ -8,7 +8,7 @@ export async function streamGenerate(
   body: { prompt: string; industryName?: string; industryContext?: string },
   onText: (chunk: string) => void,
   signal: AbortSignal,
-): Promise<{ error?: string }> {
+): Promise<{ error?: string | undefined }> {
   const res = await fetch("/api/generate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

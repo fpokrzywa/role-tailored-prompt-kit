@@ -226,7 +226,7 @@ const BY_LABEL: Record<string, string[]> = {
 export function suggestionsFor(industry: Industry | undefined, kind: BlankKind, label: string): string[] {
   const byLabel = BY_LABEL[label.toLowerCase()];
   if (byLabel) return byLabel;
-  if (kind === "industry") return industry ? [industry.name.split(" / ")[0]] : [];
+  if (kind === "industry") return industry ? [industry.name.split(" / ")[0] ?? industry.name] : [];
   if (kind === "jobTitle") return industry?.suggestions.role ?? [];
   if (industry && kind in industry.suggestions) return industry.suggestions[kind as IndustryKind];
   return GENERIC[kind] ?? [];
